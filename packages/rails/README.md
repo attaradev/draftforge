@@ -63,3 +63,11 @@ DraftForge.configure do |config|
   config.sanitizer_config[:elements] += %w[hr]
 end
 ```
+
+## Testing
+
+Run the RSpec suite from this directory to verify changes:
+
+```bash
+bundle exec rspec
+```
