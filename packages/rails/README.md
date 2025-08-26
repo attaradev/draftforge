@@ -25,6 +25,21 @@ end
 This provides `POST /draft_forge` to queue a PDF export and
 `GET /draft_forge/:id` to check status or download the finished file.
 
+## Services
+
+If you prefer not to expose HTTP endpoints, you can queue and fetch exports
+directly with service objects:
+
+```ruby
+export = DraftForge::CreateExport.call(
+  content_html: "<p>Hello world</p>",
+  filename: "hello.pdf"
+)
+
+DraftForge::FetchExport.call(export.id)
+# => { id: 1, status: "queued" }
+```
+
 ## Configuration
 
 `DraftForge` exposes simple configuration hooks for PDF rendering and HTML
