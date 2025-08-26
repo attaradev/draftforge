@@ -11,6 +11,8 @@ export interface EditorProps {
   onChangeData?: (data: EditorJsData) => void;
   uploadImage?: UploadImageFn;
   className?: string;
+  /** Accessible label for the editor region */
+  ariaLabel?: string;
 }
 
 export interface PreviewProps {
