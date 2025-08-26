@@ -16,4 +16,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", ">= 7.1", "< 9.0"
   spec.add_dependency "grover", ">= 1.1"
   spec.add_dependency "sanitize", ">= 6.1"
+  spec.add_development_dependency "rspec", "~> 3.12"
 end
