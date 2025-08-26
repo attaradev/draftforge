@@ -3,10 +3,14 @@ module.exports = {
   testEnvironment: 'jsdom',
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
   setupFilesAfterEnv: ['@testing-library/jest-dom'],
-  globals: {
-    'ts-jest': {
-      useESM: true
-    }
+  transform: {
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      {
+        tsconfig: './tsconfig.jest.json',
+        useESM: true
+      }
+    ]
   },
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
