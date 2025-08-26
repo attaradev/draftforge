@@ -1,4 +1,3 @@
-import { renderToHtml } from './renderToHtml';
 import type { ExportOptions } from './types';
 
 /**
@@ -15,11 +14,10 @@ export async function exportDocument({
   pollIntervalMs = 1000,
   maxPolls = 60
 }: ExportOptions): Promise<string> {
-  const html = renderToHtml(data);
   const res = await fetchImpl(exportUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content_html: html, filename })
+    body: JSON.stringify({ content_json: data, filename })
   });
   if (!res.ok) throw new Error(`Export request failed: ${res.status}`);
   const { id } = await res.json();

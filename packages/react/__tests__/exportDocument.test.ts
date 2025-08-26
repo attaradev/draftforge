@@ -19,6 +19,8 @@ describe('exportDocument', () => {
     });
     expect(url).toBe('/file.pdf');
     expect(calls[0].url).toBe('/export');
+    const body = JSON.parse(calls[0].opts.body);
+    expect(body.content_json).toEqual({ blocks: [] });
   });
 
   it('throws on export failure', async () => {

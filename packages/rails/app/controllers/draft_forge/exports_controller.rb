@@ -5,7 +5,11 @@ module DraftForge
     before_action :ensure_json
 
     def create
-      html = params[:content_html].to_s
+      html = if params[:content_json].present?
+               EditorJsRenderer.call(params[:content_json])
+             else
+               params[:content_html].to_s
+             end
       filename = params[:filename].presence || "document.pdf"
 
       export = Export.create!(status: :queued, requested_filename: filename)
