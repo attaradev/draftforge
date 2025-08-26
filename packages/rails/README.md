@@ -45,6 +45,12 @@ DraftForge::FetchExport.call(export.id)
 # => { id: 1, status: "queued" }
 ```
 
+```ruby
+# Render HTML directly to a PDF without queuing
+file = DraftForge::PdfRenderer.call("<p>Hello</p>")
+file.close!
+```
+
 ## Configuration
 
 `DraftForge` exposes simple configuration hooks for PDF rendering and HTML
@@ -63,6 +69,10 @@ DraftForge.configure do |config|
   config.sanitizer_config[:elements] += %w[hr]
 end
 ```
+
+## Performance
+
+`ExportPdfJob` streams generated PDFs to a temporary file before attaching, keeping memory usage low even for very large, 100+ page exports.
 
 ## Testing
 

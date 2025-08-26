@@ -17,7 +17,19 @@ Reusable components and helpers for building authoring interfaces.
 - **renderToHtml** – helper for server‑side rendering.
 - **exportDocument** – delegates PDF generation to a backend service.
 
-See [React package README](../packages/react/README.md) for installation and usage.
+Install from npm along with React and React DOM, then import the bundled
+editor styles once in your app:
+
+```bash
+npm install draftforge react react-dom
+```
+
+```ts
+import 'draftforge/dist/editor.css';
+```
+
+See [React package README](../packages/react/README.md) for a full usage
+example and API details.
 
 ### Rails Engine (`packages/rails`)
 
