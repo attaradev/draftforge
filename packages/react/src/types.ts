@@ -1,3 +1,5 @@
+import type EditorJS from '@editorjs/editorjs';
+
 export type UploadImageFn = (file: File) => Promise<string>;
 
 export interface EditorJsData {
@@ -13,6 +15,12 @@ export interface EditorProps {
   className?: string;
   /** Accessible label for the editor region */
   ariaLabel?: string;
+  /** Placeholder text shown in the first empty block */
+  placeholder?: string;
+  /** Toggle read-only mode */
+  readOnly?: boolean;
+  /** Callback once the Editor.js instance is ready */
+  onReady?: (editor: EditorJS) => void;
 }
 
 export interface PreviewProps {

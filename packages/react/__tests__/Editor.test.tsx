@@ -4,6 +4,7 @@ import { Editor } from '../src/Editor';
 jest.mock('@editorjs/editorjs', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => ({ destroy: jest.fn() })),
+  LogLevels: { ERROR: 'ERROR' }
 }));
 
 jest.mock('@editorjs/header', () => ({ __esModule: true, default: function () {} }));
@@ -23,6 +24,14 @@ describe('Editor', () => {
   it('defaults aria-label when not provided', () => {
     render(<Editor />);
     expect(screen.getByLabelText('Rich text editor')).toBeTruthy();
+  });
+
+  it('passes placeholder to Editor.js', () => {
+    const EditorJS = require('@editorjs/editorjs').default as jest.Mock;
+    render(<Editor placeholder="Type here" />);
+    expect(EditorJS).toHaveBeenCalledWith(
+      expect.objectContaining({ placeholder: 'Type here' })
+    );
   });
 });
 
