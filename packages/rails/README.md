@@ -2,6 +2,8 @@
 
 Rails engine for exporting HTML or Editor.js JSON to PDF. Can be paired with any front-end or used standalone.
 
+Requires Ruby 3.1 or higher. See [CHANGELOG](CHANGELOG.md) for release notes.
+
 ## Installation
 
 Copy an initializer and migration into your application:
