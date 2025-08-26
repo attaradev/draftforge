@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require_relative "lib/draft_forge/version"
+
 
 Gem::Specification.new do |spec|
   spec.name          = "draft_forge"
