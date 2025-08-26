@@ -22,6 +22,14 @@ pnpm i
 pnpm build
 ```
 
+## Testing
+
+Run the Jest suite to ensure changes behave as expected:
+
+```bash
+npm test
+```
+
 ## Usage
 
 The components are backend-agnostic. Provide URLs for your own export service:

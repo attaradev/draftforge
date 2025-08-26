@@ -12,6 +12,23 @@ Each package can be used on its own or combined. Refer to their READMEs for setu
 - [React components](packages/react/README.md)
 - [Rails engine](packages/rails/README.md)
 
+## Development
+
+This repository is a small monorepo. Each package lives in isolation and has
+its own build and test tooling. To work on the code locally, install the
+dependencies for the package you're touching and run its test suite:
+
+- **React package**
+  ```bash
+  cd packages/react
+  npm test
+  ```
+- **Rails engine**
+  ```bash
+  cd packages/rails
+  bundle exec rspec
+  ```
+
 ## Notes
 
 - Harden for production: authN/Z, payload limits, stricter Sanitize config, CSP headers, long-running queue.
