@@ -9,7 +9,13 @@ import CodeTool from '@editorjs/code';
 import ImageTool from '@editorjs/image';
 import type { EditorProps } from './types';
 
-export function Editor({ initialData, onChangeData, uploadImage, className }: EditorProps) {
+export function Editor({
+  initialData,
+  onChangeData,
+  uploadImage,
+  className,
+  ariaLabel = 'Rich text editor',
+}: EditorProps) {
   const holderRef = useRef<HTMLDivElement | null>(null);
   const editorRef = useRef<EditorJS | null>(null);
 
@@ -56,7 +62,11 @@ export function Editor({ initialData, onChangeData, uploadImage, className }: Ed
 
   return (
     <div className={className}>
-      <div ref={holderRef} style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12, minHeight: 280 }} />
+      <div
+        ref={holderRef}
+        aria-label={ariaLabel}
+        style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12, minHeight: 280 }}
+      />
     </div>
   );
 }
