@@ -1,6 +1,6 @@
 # draft_forge
 
-Rails engine for exporting HTML to PDF. Can be paired with any front-end or used standalone.
+Rails engine for exporting HTML or Editor.js JSON to PDF. Can be paired with any front-end or used standalone.
 
 ## Installation
 
@@ -35,7 +35,7 @@ directly with service objects:
 
 ```ruby
 export = DraftForge::CreateExport.call(
-  content_html: "<p>Hello world</p>",
+  content_json: { blocks: [{ type: 'paragraph', data: { text: 'Hello world' } }] },
   filename: "hello.pdf"
 )
 
