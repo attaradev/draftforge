@@ -9,8 +9,22 @@ Standalone React components for rich-text authoring with delegated PDF export. I
 
 ## Installation
 
+The components ship as a single npm package and rely on React and
+React&nbsp;DOM&nbsp;18+ as peer dependencies. Install everything from npm (or
+your preferred client):
+
 ```bash
-npm install draftforge
+npm install draftforge react react-dom
+
+# with pnpm
+pnpm add draftforge react react-dom
+```
+
+Import the bundled editor styles once in your application entry point so the
+editor renders correctly:
+
+```ts
+import 'draftforge/dist/editor.css';
 ```
 
 ## Build
@@ -35,8 +49,9 @@ npm test
 The components are backend-agnostic. Provide URLs for your own export service:
 
 ```tsx
-import { Editor, Preview, exportDocument } from 'draftforge';
 import { useState } from 'react';
+import { Editor, Preview, exportDocument } from 'draftforge';
+import 'draftforge/dist/editor.css';
 
 export default function Composer() {
   const [data, setData] = useState({ blocks: [] });
@@ -61,4 +76,5 @@ export default function Composer() {
 }
 ```
 
-Use with any backend capable of accepting Editor.js JSON and returning a PDF URL when ready.
+Use with any backend capable of accepting Editor.js JSON and returning a URL
+to a rendered PDF when ready.
