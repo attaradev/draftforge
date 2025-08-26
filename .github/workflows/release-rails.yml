@@ -1,0 +1,26 @@
+name: Release Rails Gem
+
+on:
+  push:
+    tags:
+      - 'rails-v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: packages/rails
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+      - uses: rubygems/configure-rubygems-credentials@v1.0.0
+      - run: bundle install
+      - run: gem build draft_forge.gemspec
+      - run: gem push draft_forge-*.gem
