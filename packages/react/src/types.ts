@@ -38,5 +38,7 @@ export interface ExportOptions {
   onReady?: (downloadUrl: string) => void;
   fetchImpl?: typeof fetch;
   pollIntervalMs?: number;
+  /** Multiplier applied to the poll interval after each attempt */
+  backoffFactor?: number;
   maxPolls?: number;
 }

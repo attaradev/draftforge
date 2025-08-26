@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { Preview } from '../src/Preview';
 
 describe('Preview', () => {
-  it('renders sanitized HTML', () => {
+  it('renders sanitized HTML', async () => {
     render(<Preview data={{ blocks: [{ type: 'paragraph', data: { text: 'Hi' } }] }} />);
-    expect(screen.getByText('Hi')).toBeTruthy();
+    expect(await screen.findByText('Hi')).toBeTruthy();
   });
 });

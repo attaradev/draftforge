@@ -12,6 +12,7 @@ export async function exportDocument({
   onReady,
   fetchImpl = fetch,
   pollIntervalMs = 1000,
+  backoffFactor = 1.5,
   maxPolls = 60
 }: ExportOptions): Promise<string> {
   const res = await fetchImpl(exportUrl, {
@@ -22,8 +23,9 @@ export async function exportDocument({
   if (!res.ok) throw new Error(`Export request failed: ${res.status}`);
   const { id } = await res.json();
   let tries = 0;
+  let interval = pollIntervalMs;
   while (tries < maxPolls) {
-    await new Promise(r => setTimeout(r, pollIntervalMs));
+    await new Promise(r => setTimeout(r, interval));
     const sres = await fetchImpl(`${pollBaseUrl}/${id}`);
     if (!sres.ok) throw new Error(`Poll failed: ${sres.status}`);
     const data = await sres.json();
@@ -34,6 +36,7 @@ export async function exportDocument({
       throw new Error('Export failed');
     }
     tries++;
+    interval = Math.round(interval * (backoffFactor > 1 ? backoffFactor : 1));
   }
   throw new Error('Timed out waiting for export');
 }
