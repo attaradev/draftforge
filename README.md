@@ -1,0 +1,38 @@
+# DraftForge
+
+A lightweight, stack-agnostic library for **web-native rich text authoring, live preview, and delegated PDF export**.
+
+This repository hosts two independent packages:
+
+- `packages/react` — React components built on **Editor.js**: `Editor`, `Preview`, plus helpers for HTML rendering and export delegation.
+- `packages/rails` — Rails engine (`draft_forge`) exposing `/draftforge/exports` for async HTML or Editor.js JSON → PDF via **Grover** (Puppeteer). Includes server-side HTML sanitization and Active Storage delivery.
+
+Each package can be used on its own or combined. Refer to their READMEs for setup and configuration:
+
+- [React components](packages/react/README.md)
+- [Rails engine](packages/rails/README.md)
+
+## Development
+
+This repository is a small monorepo. Each package lives in isolation and has
+its own build and test tooling. To work on the code locally, install the
+dependencies for the package you're touching and run its test suite:
+
+- **React package**
+
+  ```bash
+  cd packages/react
+  npm test
+  ```
+
+- **Rails engine**
+
+  ```bash
+  cd packages/rails
+  bundle exec rspec
+  ```
+
+## Notes
+
+- Harden for production: authN/Z, payload limits, stricter Sanitize config, CSP headers, long-running queue.
+- You can extend the block renderer and styles to match product typography/layout.
