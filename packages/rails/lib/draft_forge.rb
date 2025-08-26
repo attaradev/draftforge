@@ -12,7 +12,7 @@ module DraftForge
       'img' => ['src', 'alt', 'title', 'width', 'height'],
       'td' => ['colspan', 'rowspan', 'style'],
       'th' => ['colspan', 'rowspan', 'style'],
-      :all => ['class', 'style']
+      :all => ['class', 'style', 'contenteditable']
     },
     protocols: {
       'a' => { 'href' => ['http', 'https', 'mailto', 'tel', :relative] },

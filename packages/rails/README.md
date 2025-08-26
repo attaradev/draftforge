@@ -6,7 +6,9 @@ Rails engine for exporting HTML to PDF. Can be paired with any front-end or used
 
 `DraftForge` exposes simple configuration hooks for PDF rendering and HTML
 sanitization. The sanitizer controls which HTML elements (blocks) are allowed,
-letting you distinguish between editable and non-editable content.
+letting you distinguish between editable and non-editable content. By default
+the sanitizer permits the `contenteditable` attribute so sanitized markup can
+be used in live editors.
 
 ```ruby
 # config/initializers/draft_forge.rb
