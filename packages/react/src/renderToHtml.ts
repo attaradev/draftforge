@@ -5,22 +5,24 @@ export function renderToHtml(data: EditorJsData): string {
   if (!data || !Array.isArray(data.blocks)) return '';
   const parts: string[] = [];
   for (const block of data.blocks) {
-    const { type, data } = block || {};
+    const { type, data, editable } = block || {};
+    const ceAttr =
+      editable === undefined ? '' : ` contenteditable="${editable ? 'true' : 'false'}"`;
     switch (type) {
       case 'paragraph': {
-        parts.push(`<p>${escapeHtml(data?.text ?? '')}</p>`);
+        parts.push(`<p${ceAttr}>${escapeHtml(data?.text ?? '')}</p>`);
         break;
       }
       case 'header': {
         const level = clamp(Number(data?.level) || 2, 1, 6);
-        parts.push(`<h${level}>${escapeHtml(data?.text ?? '')}</h${level}>`);
+        parts.push(`<h${level}${ceAttr}>${escapeHtml(data?.text ?? '')}</h${level}>`);
         break;
       }
       case 'list': {
         const style = (data?.style === 'ordered') ? 'ol' : 'ul';
         const items = Array.isArray(data?.items) ? data.items : [];
         const lis = items.map((t: string) => `<li>${escapeHtml(t)}</li>`).join('');
-        parts.push(`<${style}>${lis}</${style}>`);
+        parts.push(`<${style}${ceAttr}>${lis}</${style}>`);
         break;
       }
       case 'checklist': {
@@ -29,7 +31,7 @@ export function renderToHtml(data: EditorJsData): string {
           const checked = it?.checked ? '☑' : '☐';
           return `<li>${checked} ${escapeHtml(it?.text ?? '')}</li>`;
         }).join('');
-        parts.push(`<ul class="checklist">${lis}</ul>`);
+        parts.push(`<ul class="checklist"${ceAttr}>${lis}</ul>`);
         break;
       }
       case 'table': {
@@ -38,29 +40,29 @@ export function renderToHtml(data: EditorJsData): string {
           const tds = row.map((cell: string) => `<td>${escapeHtml(cell)}</td>`).join('');
           return `<tr>${tds}</tr>`;
         }).join('');
-        parts.push(`<table>${trs}</table>`);
+        parts.push(`<table${ceAttr}>${trs}</table>`);
         break;
       }
       case 'quote': {
         const text = escapeHtml(data?.text ?? '');
         const caption = data?.caption ? `<cite>${escapeHtml(data.caption)}</cite>` : '';
-        parts.push(`<blockquote>${text}${caption}</blockquote>`);
+        parts.push(`<blockquote${ceAttr}>${text}${caption}</blockquote>`);
         break;
       }
       case 'code': {
         const code = escapeHtml(data?.code ?? '');
-        parts.push(`<pre><code>${code}</code></pre>`);
+        parts.push(`<pre${ceAttr}><code>${code}</code></pre>`);
         break;
       }
       case 'delimiter': {
-        parts.push('<hr />');
+        parts.push(`<hr${ceAttr} />`);
         break;
       }
       case 'image': {
         const url = data?.file?.url || data?.url;
         if (typeof url === 'string' && url.length > 0) {
           const caption = data?.caption ? `<figcaption>${escapeHtml(data.caption)}</figcaption>` : '';
-          parts.push(`<figure><img src="${escapeAttr(url)}" alt="" />${caption}</figure>`);
+          parts.push(`<figure${ceAttr}><img src="${escapeAttr(url)}" alt="" />${caption}</figure>`);
         }
         break;
       }
