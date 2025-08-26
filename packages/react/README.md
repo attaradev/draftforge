@@ -1,11 +1,11 @@
 # DraftForge React
 
-Standalone React components for rich-text authoring and PDF export. Includes:
+Standalone React components for rich-text authoring with delegated PDF export. Includes:
 
 - **Editor** – block-based editor powered by Editor.js
 - **Preview** – client-side HTML preview of Editor.js data
-- **ExportButton** – kicks off an export and polls for completion
 - **renderToHtml** – helper for server-side rendering
+- **exportDocument** – delegates export to a backend service
 
 ## Installation
 
@@ -27,22 +27,27 @@ pnpm build
 The components are backend-agnostic. Provide URLs for your own export service:
 
 ```tsx
-import { Editor, Preview, ExportButton } from 'draftforge';
+import { Editor, Preview, exportDocument } from 'draftforge';
 import { useState } from 'react';
 
 export default function Composer() {
   const [data, setData] = useState({ blocks: [] });
 
+  const handleExport = async () => {
+    const url = await exportDocument({
+      data,
+      filename: 'document.pdf',
+      exportUrl: '/exports',
+      pollBaseUrl: '/exports'
+    });
+    window.location.href = url;
+  };
+
   return (
     <>
       <Editor initialData={data} onChangeData={setData} />
       <Preview data={data} />
-      <ExportButton
-        data={data}
-        filename="document.pdf"
-        exportUrl="/exports"
-        pollBaseUrl="/exports"
-      />
+      <button onClick={handleExport}>Export PDF</button>
     </>
   );
 }

@@ -18,11 +18,13 @@ export interface PreviewProps {
   className?: string;
 }
 
-export interface ExportButtonProps {
+export interface ExportOptions {
   data: EditorJsData;
   filename?: string;
   exportUrl: string;    // POST endpoint
   pollBaseUrl: string;  // GET base, i.e. `${pollBaseUrl}/${id}`
   onReady?: (downloadUrl: string) => void;
-  className?: string;
+  fetchImpl?: typeof fetch;
+  pollIntervalMs?: number;
+  maxPolls?: number;
 }
