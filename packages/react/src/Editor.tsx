@@ -20,22 +20,25 @@ export function Editor({ initialData, onChangeData, uploadImage, className }: Ed
       holder: holderRef.current,
       data: initialData || { blocks: [{ type: 'paragraph', data: { text: '' } }] },
       tools: {
-        header: Header,
-        list: List,
-        checklist: Checklist,
-        table: Table,
-        quote: Quote,
-        code: CodeTool,
+        paragraph: { inlineToolbar: true },
+        header: { class: Header as any, inlineToolbar: true },
+        list: { class: List as any, inlineToolbar: true },
+        checklist: { class: Checklist as any, inlineToolbar: true },
+        table: { class: Table as any, inlineToolbar: true },
+        quote: { class: Quote as any, inlineToolbar: true },
+        code: { class: CodeTool as any, inlineToolbar: true },
         image: {
           class: ImageTool as any,
-          config: uploadImage ? {
-            uploader: {
-              async uploadByFile(file: File) {
-                const url = await uploadImage(file);
-                return { success: 1, file: { url } };
+          config: uploadImage
+            ? {
+                uploader: {
+                  async uploadByFile(file: File) {
+                    const url = await uploadImage(file);
+                    return { success: 1, file: { url } };
+                  }
+                }
               }
-            }
-          } : undefined
+            : undefined
         }
       },
       async onChange(api) {
