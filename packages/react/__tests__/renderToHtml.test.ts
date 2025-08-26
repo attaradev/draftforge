@@ -11,4 +11,15 @@ describe('renderToHtml', () => {
     expect(html).toContain('<p>Hello &lt;world&gt;</p>');
     expect(html).toContain('<h3>Title</h3>');
   });
+
+  it('marks editable state on blocks', () => {
+    const html = renderToHtml({
+      blocks: [
+        { type: 'paragraph', data: { text: 'Locked' }, editable: false },
+        { type: 'paragraph', data: { text: 'Open' }, editable: true }
+      ]
+    });
+    expect(html).toContain('<p contenteditable="false">Locked</p>');
+    expect(html).toContain('<p contenteditable="true">Open</p>');
+  });
 });
