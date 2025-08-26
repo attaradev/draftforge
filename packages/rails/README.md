@@ -2,6 +2,29 @@
 
 Rails engine for exporting HTML to PDF. Can be paired with any front-end or used standalone.
 
+## Installation
+
+Copy an initializer and migration into your application:
+
+```bash
+bin/rails generate draft_forge:install
+```
+
+## Mounting
+
+Expose DraftForge's endpoints by mounting the engine in your application's
+routes:
+
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  mount DraftForge::Engine => "/draft_forge"
+end
+```
+
+This provides `POST /draft_forge` to queue a PDF export and
+`GET /draft_forge/:id` to check status or download the finished file.
+
 ## Configuration
 
 `DraftForge` exposes simple configuration hooks for PDF rendering and HTML
