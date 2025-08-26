@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import EditorJS from '@editorjs/editorjs';
+import EditorJS, { LogLevels } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import Checklist from '@editorjs/checklist';
@@ -15,6 +15,9 @@ export function Editor({
   uploadImage,
   className,
   ariaLabel = 'Rich text editor',
+  placeholder,
+  readOnly,
+  onReady,
 }: EditorProps) {
   const holderRef = useRef<HTMLDivElement | null>(null);
   const editorRef = useRef<EditorJS | null>(null);
@@ -25,6 +28,9 @@ export function Editor({
     const editor = new EditorJS({
       holder: holderRef.current,
       data: initialData || { blocks: [{ type: 'paragraph', data: { text: '' } }] },
+      placeholder,
+      readOnly,
+      logLevel: LogLevels.ERROR,
       tools: {
         paragraph: { inlineToolbar: true },
         header: { class: Header as any, inlineToolbar: true },
@@ -50,6 +56,9 @@ export function Editor({
       async onChange(api) {
         const data = await api.saver.save();
         onChangeData?.(data as any);
+      },
+      onReady() {
+        onReady?.(editor);
       }
     });
 
