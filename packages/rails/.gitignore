@@ -1,0 +1,15 @@
+# Ignore bundler configuration
+/.bundle/
+Gemfile.lock
+
+# Ignore log files and temp directories
+/log/
+/tmp/
+
+# Ignore packaging and coverage artifacts
+/pkg/
+/coverage/
+/spec/reports/
+
+# Ignore RSpec status file
+/.rspec_status
