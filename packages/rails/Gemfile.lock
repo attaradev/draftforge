@@ -233,7 +233,7 @@ PLATFORMS
 
 DEPENDENCIES
   draft_forge!
-  rspec (~> 3.12)
+  rspec (>= 3.12)
 
 BUNDLED WITH
    2.6.7
