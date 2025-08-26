@@ -12,7 +12,7 @@ module DraftForge
       safe_html = HtmlSanitizer.call(raw_html)
       html = wrap_html(safe_html)
 
-      pdf = Grover.new(html, format: 'A4', margin: { top: '20mm', right: '15mm', bottom: '20mm', left: '15mm' }).to_pdf
+      pdf = Grover.new(html, DraftForge.pdf_options).to_pdf
 
       filename = export.requested_filename.presence || "document.pdf"
       export.pdf.attach(io: StringIO.new(pdf), filename: filename, content_type: 'application/pdf')
@@ -25,6 +25,14 @@ module DraftForge
     private
 
     def wrap_html(body)
+      options = DraftForge.pdf_options
+      size = options[:format] || 'A4'
+      margin = options[:margin] || {}
+      top = margin[:top] || '20mm'
+      right = margin[:right] || '15mm'
+      bottom = margin[:bottom] || '20mm'
+      left = margin[:left] || '15mm'
+
       <<~HTML
         <!doctype html>
         <html>
@@ -32,7 +40,7 @@ module DraftForge
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <style>
-              @page { size: A4; margin: 20mm 15mm; }
+              @page { size: #{size}; margin: #{top} #{right} #{bottom} #{left}; }
               body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif; font-size: 12px; line-height: 1.45; color: #111; }
               h1, h2, h3 { margin: 0 0 8px; }
               h1 { font-size: 22px; }
