@@ -9,9 +9,9 @@
   "files": [
     "dist"
   ],
-  "sideEffects": false,
+  "sideEffects": ["dist/editor.css"],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/editor.css dist/editor.css",
     "clean": "rm -rf dist",
     "test": "jest"
   },

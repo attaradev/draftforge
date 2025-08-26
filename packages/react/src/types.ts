@@ -13,6 +13,8 @@ export interface EditorProps {
   onChangeData?: (data: EditorJsData) => void;
   uploadImage?: UploadImageFn;
   className?: string;
+  /** Class applied to the Editor.js holder for custom styling */
+  editorClassName?: string;
   /** Accessible label for the editor region */
   ariaLabel?: string;
   /** Placeholder text shown in the first empty block */

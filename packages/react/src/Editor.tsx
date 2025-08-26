@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import './editor.css';
 import EditorJS, { LogLevels } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
@@ -14,6 +15,7 @@ export function Editor({
   onChangeData,
   uploadImage,
   className,
+  editorClassName,
   ariaLabel = 'Rich text editor',
   placeholder,
   readOnly,
@@ -74,7 +76,7 @@ export function Editor({
       <div
         ref={holderRef}
         aria-label={ariaLabel}
-        style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12, minHeight: 280 }}
+        className={['df-editor', editorClassName].filter(Boolean).join(' ')}
       />
     </div>
   );

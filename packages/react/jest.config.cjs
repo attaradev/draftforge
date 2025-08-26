@@ -9,6 +9,7 @@ module.exports = {
     }
   },
   moduleNameMapper: {
-    '^(\.{1,2}/.*)\.js$': '$1'
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+    '\\.(css)$': '<rootDir>/__mocks__/styleMock.js'
   }
 };

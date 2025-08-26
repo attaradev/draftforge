@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { Editor } from '../src/Editor';
 
 jest.mock('@editorjs/editorjs', () => ({
@@ -31,6 +32,14 @@ describe('Editor', () => {
     render(<Editor placeholder="Type here" />);
     expect(EditorJS).toHaveBeenCalledWith(
       expect.objectContaining({ placeholder: 'Type here' })
+    );
+  });
+
+  it('applies custom editor class', () => {
+    render(<Editor editorClassName="my-editor" />);
+    expect(screen.getByLabelText('Rich text editor')).toHaveClass(
+      'df-editor',
+      'my-editor'
     );
   });
 });
