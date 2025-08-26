@@ -3,6 +3,10 @@
 module DraftForge
   class FetchExport
     def self.call(id)
+      unless Export.table_exists?
+        Rails.logger.error("[DraftForge] Missing `draft_forge_exports` table. Run `rails generate draft_forge:install` and `rails db:migrate`.")
+        return
+      end
       export = Export.find(id)
       result = { id: export.id, status: export.status }
       if export.complete? && export.pdf.attached?

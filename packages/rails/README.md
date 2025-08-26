@@ -10,6 +10,9 @@ Copy an initializer and migration into your application:
 bin/rails generate draft_forge:install
 ```
 
+Attempting to use DraftForge's services before running the generator and
+migrating will log an error directing you to install and migrate.
+
 ## Mounting
 
 Expose DraftForge's endpoints by mounting the engine in your application's

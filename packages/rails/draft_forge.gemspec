@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.description   = "A minimal Rails engine exposing endpoints to export sanitized HTML to PDF via Grover."
   spec.license       = "MIT"
   spec.require_paths = ["lib"]
-  spec.files         = Dir.chdir(__dir__) { Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "README.md"] }
+  spec.files         = Dir.chdir(__dir__) { Dir["{app,config,lib}/**/*", "MIT-LICENSE", "README.md"] }
 
   spec.add_dependency "rails", ">= 7.1", "< 9.0"
   spec.add_dependency "grover", ">= 1.1"
