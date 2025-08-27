@@ -3,8 +3,8 @@
 require 'json'
 
 module DraftForge
-  # Convert Editor.js data to basic HTML
-class EditorJsRenderer
+  # Convert block JSON data to basic HTML
+  class BlockJsonRenderer
     def self.call(data)
       data = parse(data)
       blocks = data.fetch('blocks', [])

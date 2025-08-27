@@ -8,7 +8,7 @@ module DraftForge
         return
       end
       html = if content_json
-               EditorJsRenderer.call(content_json)
+               BlockJsonRenderer.call(content_json)
              else
                content_html.to_s
              end

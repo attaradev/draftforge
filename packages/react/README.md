@@ -3,7 +3,7 @@
 Standalone React helpers for rich-text authoring with delegated PDF export. Includes:
 
 - **Editor** – headless rich-text editor powered by Slate with optional collaborative editing, an inline formatting toolbar, and support for non-editable blocks via an `editable` flag
-- **Preview** – client-side HTML preview of Editor.js data
+- **Preview** – client-side HTML preview of block data
 - **renderToHtml** – helper for server-side rendering
 - **exportDocument** – delegates export to a backend service
 
@@ -75,7 +75,7 @@ export default function Composer() {
 }
 ```
 
-Use with any backend capable of accepting Editor.js JSON and returning a URL
+Use with any backend capable of accepting block JSON and returning a URL
 to a rendered PDF when ready.
 
 ### Long-running exports
@@ -100,7 +100,7 @@ The backoff reduces network chatter when exporting very large PDFs (100+ pages).
 ### Pagination
 
 `Preview` and `renderToHtml` accept optional `page` and `pageSize` parameters to
-help work with very large Editor.js datasets. Render only a slice of blocks for
+help work with very large datasets. Render only a slice of blocks for
 lightweight previews or server-side rendering:
 
 ```tsx
@@ -115,5 +115,5 @@ like Google Docs.
 ### Efficient previews
 
 `Preview` sanitizes the generated HTML on an idle callback so rendering huge
-Editor.js datasets doesn't lock up the UI. The content appears once the browser
+datasets doesn't lock up the UI. The content appears once the browser
 has time to process it, keeping previews responsive even for 100+ page drafts.

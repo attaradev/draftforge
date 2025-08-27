@@ -13,7 +13,7 @@ The repository hosts two packages that can be used together or separately:
 Reusable components and helpers for building authoring interfaces.
 
 - **Editor** – headless editor powered by Slate with an inline formatting toolbar.
-- **Preview** – client‑side HTML preview for Editor.js data.
+- **Preview** – client‑side HTML preview for block data.
 - **renderToHtml** – helper for server‑side rendering.
 - **exportDocument** – delegates PDF generation to a backend service.
 
@@ -35,7 +35,7 @@ See [Rails package README](../packages/rails/README.md) for setup details.
 ## Quick Start
 
 1. **Choose your frontend** – use the React components or roll your own client
-   that produces Editor.js JSON.
+   that produces block JSON.
 2. **Expose an export service** – mount the Rails engine or implement a custom
    HTTP endpoint that accepts the exported JSON and responds with a polling URL.
 3. **Delegate export** – call `exportDocument` from the client or trigger

@@ -1,7 +1,7 @@
 import type { ExportOptions } from './types';
 
 /**
- * Delegate export of Editor.js data to a backend service.
+ * Delegate export of document data to a backend service.
  * Returns the download URL when ready.
  */
 export async function exportDocument({
