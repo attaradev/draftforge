@@ -1,86 +1,81 @@
-import { useEffect, useRef } from 'react';
 import './editor.css';
-import EditorJS, { LogLevels } from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import Checklist from '@editorjs/checklist';
-import Table from '@editorjs/table';
-import Quote from '@editorjs/quote';
-import CodeTool from '@editorjs/code';
-import ImageTool from '@editorjs/image';
+import {
+  useMemo,
+  useState,
+  useEffect,
+} from 'react';
+import { createEditor, Descendant } from 'slate';
+import { Slate, Editable, withReact } from 'slate-react';
+import { withHistory } from 'slate-history';
+import { withYjs, YjsEditor } from '@slate-yjs/core';
+import * as Y from 'yjs';
+import { WebsocketProvider } from 'y-websocket';
 import type { EditorProps } from './types';
 
+const EMPTY_VALUE: Descendant[] = [
+  { type: 'paragraph', children: [{ text: '' }] } as any
+];
+
 export function Editor({
-  initialData,
-  onChangeData,
-  uploadImage,
+  initialValue,
+  onChangeValue,
+  header,
   className,
   editorClassName,
   ariaLabel = 'Rich text editor',
   placeholder,
   readOnly,
-  onReady,
+  collaborative,
+  collabUrl,
 }: EditorProps) {
-  const holderRef = useRef<HTMLDivElement | null>(null);
-  const editorRef = useRef<EditorJS | null>(null);
+  const [value, setValue] = useState<Descendant[]>(
+    initialValue ?? EMPTY_VALUE
+  );
+
+  const ydoc = useMemo(() => (collaborative ? new Y.Doc() : null), [collaborative]);
+  const provider = useMemo(() => {
+    if (!collaborative || !ydoc) return null;
+    return new WebsocketProvider(collabUrl || 'ws://localhost:1234', 'draft', ydoc);
+  }, [collaborative, collabUrl, ydoc]);
+  const sharedType = useMemo(() => ydoc?.getXmlFragment('content'), [ydoc]);
+
+  const editor = useMemo(() => {
+    let e: any = withReact(withHistory(createEditor()));
+    if (collaborative && sharedType) {
+      e = withYjs(e, sharedType as any) as any;
+    }
+    return e;
+  }, [collaborative, sharedType]);
 
   useEffect(() => {
-    if (!holderRef.current) return;
-
-    const data =
-      initialData ?? { blocks: [{ type: 'paragraph', data: { text: '' } }] };
-
-    const editor = new EditorJS({
-      holder: holderRef.current,
-      data,
-      placeholder,
-      readOnly,
-      logLevel: LogLevels.ERROR,
-      tools: {
-        paragraph: { inlineToolbar: true },
-        header: { class: Header as any, inlineToolbar: true },
-        list: { class: List as any, inlineToolbar: true },
-        checklist: { class: Checklist as any, inlineToolbar: true },
-        table: { class: Table as any, inlineToolbar: true },
-        quote: { class: Quote as any, inlineToolbar: true },
-        code: { class: CodeTool as any, inlineToolbar: true },
-        image: {
-          class: ImageTool as any,
-          config: uploadImage
-            ? {
-                uploader: {
-                  async uploadByFile(file: File) {
-                    const url = await uploadImage(file);
-                    return { success: 1, file: { url } };
-                  }
-                }
-              }
-            : undefined
-        }
-      },
-      async onChange(api) {
-        const data = await api.saver.save();
-        onChangeData?.(data as any);
-      },
-      onReady() {
-        onReady?.(editor);
-      }
-    });
-
-    editorRef.current = editor;
-    return () => {
-      editor.destroy();
-      editorRef.current = null;
-    };
-  }, [initialData, placeholder, readOnly, uploadImage]);
+    if (collaborative && editor) {
+      YjsEditor.connect(editor as any);
+      return () => {
+        YjsEditor.disconnect(editor as any);
+        provider?.destroy();
+      };
+    }
+  }, [collaborative, editor, provider]);
 
   return (
     <div className={className}>
-      <div
-        ref={holderRef}
-        aria-label={ariaLabel}
-        className={['df-editor', editorClassName].filter(Boolean).join(' ')}
-      />
+      {header && <div className="df-editor-header">{header}</div>}
+      <Slate
+        editor={editor}
+        initialValue={value}
+        onChange={(v) => {
+          setValue(v);
+          onChangeValue?.(v);
+        }}
+      >
+        <Editable
+          className={['df-editor', editorClassName].filter(Boolean).join(' ')}
+          aria-label={ariaLabel}
+          placeholder={placeholder}
+          readOnly={readOnly}
+        />
+      </Slate>
     </div>
   );
 }
+
