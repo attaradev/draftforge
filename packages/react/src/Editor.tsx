@@ -1,8 +1,15 @@
-import { useCallback } from 'react';
-import { Slate, Editable, DefaultElement, type RenderElementProps, type RenderLeafProps } from 'slate-react';
+import { useCallback, useState } from 'react';
+import {
+  Slate,
+  Editable,
+  DefaultElement,
+  type RenderElementProps,
+  type RenderLeafProps,
+} from 'slate-react';
 import { Editor as SlateEditor } from 'slate';
 import { useEditor } from './useEditor';
 import type { EditorProps } from './types';
+import { InlineToolbar } from './InlineToolbar';
 
 export function Editor({
   initialValue,
@@ -23,6 +30,13 @@ export function Editor({
 
   const renderElement = useCallback((props: RenderElementProps) => {
     const { element } = props;
+    if ((element as any).type === 'inline-header') {
+      return (
+        <h2 style={{ display: 'inline' }} {...props.attributes}>
+          {props.children}
+        </h2>
+      );
+    }
     if ((element as any).editable === false) {
       const attributes = {
         ...props.attributes,
@@ -67,6 +81,24 @@ export function Editor({
     }
   }, [toggleMark]);
 
+  const [toolbarPos, setToolbarPos] = useState<{ top: number; left: number } | null>(
+    null
+  );
+
+  const updateToolbar = useCallback(() => {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+      const range = sel.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      setToolbarPos({
+        top: rect.top + window.scrollY,
+        left: rect.left + rect.width / 2 + window.scrollX,
+      });
+    } else {
+      setToolbarPos(null);
+    }
+  }, []);
+
   return (
     <Slate editor={editor} initialValue={value} onChange={onChange}>
       <Editable
@@ -77,6 +109,13 @@ export function Editor({
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         onKeyDown={handleKeyDown}
+        onMouseUp={updateToolbar}
+        onKeyUp={updateToolbar}
+        onBlur={() => setToolbarPos(null)}
+      />
+      <InlineToolbar
+        position={toolbarPos}
+        onRequestClose={() => setToolbarPos(null)}
       />
     </Slate>
   );
