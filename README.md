@@ -11,7 +11,7 @@ This repository hosts two packages:
 - `packages/react` – React components built on **Slate** with optional collaborative editing: `Editor`,
   `Preview`, `renderToHtml`, and `exportDocument` for delegating PDF export.
 - `packages/rails` – Rails engine (`draft_forge`) exposing `/draft_forge` endpoints
-  for async HTML or Editor.js JSON → PDF via **Grover** (Puppeteer). Includes
+  for async HTML → PDF via **Grover** (Puppeteer). Includes
   server‑side HTML sanitization and Active Storage delivery.
 
 For deeper package documentation, see the [React README](packages/react/README.md)
@@ -21,7 +21,7 @@ and the [Rails README](packages/rails/README.md). A high‑level overview lives 
 ## Quick Start
 
 1. Install the package(s) you need and follow their README instructions.
-2. Use the React `Editor` to collect Editor.js JSON data or provide your own payload.
+2. Use the React `Editor` to collect block JSON data or provide your own payload.
 3. Delegate PDF generation to a backend service – the Rails engine supplies a ready‑made implementation.
 
 ## Development

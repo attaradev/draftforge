@@ -6,7 +6,7 @@ module DraftForge
 
     def create
       html = if params[:content_json].present?
-               EditorJsRenderer.call(params[:content_json])
+               BlockJsonRenderer.call(params[:content_json])
              else
                params[:content_html].to_s
              end

@@ -1,6 +1,6 @@
 import type { Descendant } from 'slate';
 
-export interface EditorJsBlock {
+export interface Block {
   /** Block type identifier, e.g. `paragraph` */
   type: string;
   /** Arbitrary data specific to the block type */
@@ -10,9 +10,9 @@ export interface EditorJsBlock {
   [key: string]: any;
 }
 
-export interface EditorJsData {
+export interface DocumentData {
   time?: number;
-  blocks: EditorJsBlock[];
+  blocks: Block[];
   version?: string;
 }
 
@@ -36,7 +36,7 @@ export interface EditorProps {
 export type UseEditorOptions = Pick<EditorProps, 'initialValue' | 'onChangeValue' | 'collaborative' | 'collabUrl'>;
 
 export interface PreviewProps {
-  data: EditorJsData;
+  data: DocumentData;
   className?: string;
   /** Page number to render when working with large datasets */
   page?: number;
@@ -50,7 +50,7 @@ export interface RenderOptions {
 }
 
 export interface ExportOptions {
-  data: EditorJsData;
+  data: DocumentData;
   filename?: string;
   exportUrl: string;    // POST endpoint
   pollBaseUrl: string;  // GET base, i.e. `${pollBaseUrl}/${id}`

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require_relative '../app/services/draft_forge/editor_js_renderer'
+require_relative '../app/services/draft_forge/block_json_renderer'
 
-RSpec.describe DraftForge::EditorJsRenderer do
+RSpec.describe DraftForge::BlockJsonRenderer do
   it 'renders basic blocks to html' do
     data = {
       'blocks' => [
