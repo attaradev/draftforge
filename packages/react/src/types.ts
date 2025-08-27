@@ -1,5 +1,4 @@
 import type { Descendant } from 'slate';
-import type { ReactNode } from 'react';
 
 export interface EditorJsBlock {
   /** Block type identifier, e.g. `paragraph` */
@@ -20,10 +19,8 @@ export interface EditorJsData {
 export interface EditorProps {
   initialValue?: Descendant[];
   onChangeValue?: (value: Descendant[]) => void;
-  header?: ReactNode;
+  /** Class applied to the editable element for custom styling */
   className?: string;
-  /** Class applied to the editor element for custom styling */
-  editorClassName?: string;
   /** Accessible label for the editor region */
   ariaLabel?: string;
   /** Placeholder text shown when empty */
@@ -35,6 +32,8 @@ export interface EditorProps {
   /** Websocket endpoint for collaborative editing */
   collabUrl?: string;
 }
+
+export type UseEditorOptions = Pick<EditorProps, 'initialValue' | 'onChangeValue' | 'collaborative' | 'collabUrl'>;
 
 export interface PreviewProps {
   data: EditorJsData;

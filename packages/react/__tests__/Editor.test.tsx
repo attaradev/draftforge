@@ -13,17 +13,9 @@ describe('Editor', () => {
     expect(screen.getByLabelText('Rich text editor')).toBeTruthy();
   });
 
-  it('applies custom editor class', () => {
-    render(<Editor editorClassName="my-editor" />);
-    expect(screen.getByLabelText('Rich text editor')).toHaveClass(
-      'df-editor',
-      'my-editor'
-    );
-  });
-
-  it('renders provided header', () => {
-    render(<Editor header={<h1>Header</h1>} />);
-    expect(screen.getByText('Header')).toBeInTheDocument();
+  it('applies custom class', () => {
+    render(<Editor className="my-editor" />);
+    expect(screen.getByLabelText('Rich text editor')).toHaveClass('my-editor');
   });
 
   it('respects editable flag on blocks', () => {

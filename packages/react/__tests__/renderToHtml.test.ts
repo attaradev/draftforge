@@ -12,6 +12,15 @@ describe('renderToHtml', () => {
     expect(html).toContain('<h3>Title</h3>');
   });
 
+  it('renders inline headers', () => {
+    const html = renderToHtml({
+      blocks: [
+        { type: 'inline-header', data: { text: 'Inline', level: 2 } }
+      ]
+    });
+    expect(html).toContain('<h2 style="display:inline">Inline</h2>');
+  });
+
   it('marks editable state on blocks', () => {
     const html = renderToHtml({
       blocks: [

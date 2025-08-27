@@ -1,8 +1,8 @@
 # DraftForge React
 
-Standalone React components for rich-text authoring with delegated PDF export. Includes:
+Standalone React helpers for rich-text authoring with delegated PDF export. Includes:
 
-- **Editor** – rich-text editor powered by Slate with optional collaborative editing, configurable header, and support for non-editable blocks via an `editable` flag
+- **Editor** – headless rich-text editor powered by Slate with optional collaborative editing and support for non-editable blocks via an `editable` flag
 - **Preview** – client-side HTML preview of Editor.js data
 - **renderToHtml** – helper for server-side rendering
 - **exportDocument** – delegates export to a backend service
@@ -18,13 +18,6 @@ npm install draftforge react react-dom
 
 # with pnpm
 pnpm add draftforge react react-dom
-```
-
-Import the bundled editor styles once in your application entry point so the
-editor renders correctly:
-
-```ts
-import 'draftforge/dist/editor.css';
 ```
 
 ## Build
@@ -51,7 +44,6 @@ The components are backend-agnostic. Provide URLs for your own export service:
 ```tsx
 import { useState } from 'react';
 import { Editor, Preview, exportDocument } from 'draftforge';
-import 'draftforge/dist/editor.css';
 
 export default function Composer() {
   const [value, setValue] = useState([
@@ -73,7 +65,6 @@ export default function Composer() {
       <Editor
         initialValue={value}
         onChangeValue={setValue}
-        header={<h1>My Document</h1>}
         collaborative
         collabUrl="ws://localhost:1234"
       />
