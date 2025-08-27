@@ -1,6 +1,5 @@
-import type EditorJS from '@editorjs/editorjs';
-
-export type UploadImageFn = (file: File) => Promise<string>;
+import type { Descendant } from 'slate';
+import type { ReactNode } from 'react';
 
 export interface EditorJsBlock {
   /** Block type identifier, e.g. `paragraph` */
@@ -19,20 +18,22 @@ export interface EditorJsData {
 }
 
 export interface EditorProps {
-  initialData?: EditorJsData;
-  onChangeData?: (data: EditorJsData) => void;
-  uploadImage?: UploadImageFn;
+  initialValue?: Descendant[];
+  onChangeValue?: (value: Descendant[]) => void;
+  header?: ReactNode;
   className?: string;
-  /** Class applied to the Editor.js holder for custom styling */
+  /** Class applied to the editor element for custom styling */
   editorClassName?: string;
   /** Accessible label for the editor region */
   ariaLabel?: string;
-  /** Placeholder text shown in the first empty block */
+  /** Placeholder text shown when empty */
   placeholder?: string;
   /** Toggle read-only mode */
   readOnly?: boolean;
-  /** Callback once the Editor.js instance is ready */
-  onReady?: (editor: EditorJS) => void;
+  /** Enable collaborative editing via Yjs */
+  collaborative?: boolean;
+  /** Websocket endpoint for collaborative editing */
+  collabUrl?: string;
 }
 
 export interface PreviewProps {
