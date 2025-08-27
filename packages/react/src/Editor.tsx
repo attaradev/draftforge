@@ -7,7 +7,7 @@ import {
   type RenderLeafProps,
   ReactEditor,
 } from 'slate-react';
-import { Editor as SlateEditor, Transforms } from 'slate';
+import { Editor as SlateEditor, Transforms, Text, Range, NodeEntry } from 'slate';
 import { useEditor } from './useEditor';
 import type { EditorProps } from './types';
 import { InlineToolbar } from './InlineToolbar';
@@ -18,6 +18,7 @@ export function Editor({
   className,
   ariaLabel = 'Rich text editor',
   placeholder,
+  searchQuery,
   readOnly,
   collaborative,
   collabUrl,
@@ -79,8 +80,41 @@ export function Editor({
     if ((props.leaf as any).italic) {
       children = <em>{children}</em>;
     }
-    return <span {...props.attributes}>{children}</span>;
+    const highlight = (props.leaf as any).highlight;
+    return (
+      <span
+        {...props.attributes}
+        style={highlight ? { backgroundColor: '#ffeeba' } : undefined}
+        {...(highlight ? { 'data-testid': 'search-highlight' } : {})}
+      >
+        {children}
+      </span>
+    );
   }, []);
+
+  const decorate = useCallback(
+    ([node, path]: NodeEntry): Range[] => {
+      const ranges: Range[] = [];
+      if (!searchQuery || !Text.isText(node)) {
+        return ranges;
+      }
+      const { text } = node;
+      const query = searchQuery.toLowerCase();
+      let start = 0;
+      let index = text.toLowerCase().indexOf(query, start);
+      while (index !== -1) {
+        ranges.push({
+          anchor: { path, offset: index },
+          focus: { path, offset: index + query.length },
+          highlight: true,
+        } as any);
+        start = index + query.length;
+        index = text.toLowerCase().indexOf(query, start);
+      }
+      return ranges;
+    },
+    [searchQuery],
+  );
 
   const toggleMark = useCallback((format: string) => {
     const marks = SlateEditor.marks(editor);
@@ -127,6 +161,7 @@ export function Editor({
         readOnly={readOnly}
         renderElement={renderElement}
         renderLeaf={renderLeaf}
+        decorate={decorate}
         onKeyDown={handleKeyDown}
         onMouseUp={updateToolbar}
         onKeyUp={updateToolbar}

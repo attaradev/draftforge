@@ -25,6 +25,8 @@ export interface EditorProps {
   ariaLabel?: string;
   /** Placeholder text shown when empty */
   placeholder?: string;
+  /** Highlights matching text when provided */
+  searchQuery?: string;
   /** Toggle read-only mode */
   readOnly?: boolean;
   /** Enable collaborative editing via Yjs */

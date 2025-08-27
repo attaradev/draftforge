@@ -71,5 +71,20 @@ describe('Editor', () => {
       expect(screen.getByTestId('image')).toHaveStyle({ width: '300px' });
     });
   });
+
+  it('highlights search results', () => {
+    render(
+      <Editor
+        initialValue={[{
+          type: 'paragraph',
+          children: [{ text: 'hello world' }],
+        }] as any}
+        searchQuery="world"
+      />
+    );
+    const highlights = screen.getAllByTestId('search-highlight');
+    expect(highlights).toHaveLength(1);
+    expect(highlights[0]).toHaveTextContent('world');
+  });
 });
 
