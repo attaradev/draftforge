@@ -31,12 +31,8 @@ class EditorJsRenderer
         level = bdata['level'].to_i
         level = 1 if level < 1
         level = 6 if level > 6
-        "<h#{level}>#{bdata['text']}</h#{level}>"
-      when 'inline-header'
-        level = bdata['level'].to_i
-        level = 1 if level < 1
-        level = 6 if level > 6
-        "<h#{level} style='display:inline'>#{bdata['text']}</h#{level}>"
+        style = bdata['inline'] ? " style='display:inline'" : ''
+        "<h#{level}#{style}>#{bdata['text']}</h#{level}>"
       when 'list'
         tag = bdata['style'] == 'ordered' ? 'ol' : 'ul'
         items = Array(bdata['items']).map { |item| "<li>#{item}</li>" }.join

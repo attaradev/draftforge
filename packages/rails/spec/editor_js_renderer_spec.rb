@@ -19,7 +19,7 @@ RSpec.describe DraftForge::EditorJsRenderer do
   it 'renders inline headers' do
     data = {
       'blocks' => [
-        { 'type' => 'inline-header', 'data' => { 'text' => 'Inline', 'level' => 3 } }
+        { 'type' => 'header', 'data' => { 'text' => 'Inline', 'level' => 3, 'inline' => true } }
       ]
     }
     html = described_class.call(data)
