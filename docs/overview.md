@@ -12,7 +12,7 @@ The repository hosts two packages that can be used together or separately:
 
 Reusable components and helpers for building authoring interfaces.
 
-- **Editor** – block‑based editor powered by [Editor.js](https://editorjs.io).
+- **Editor** – headless editor powered by Slate with an inline formatting toolbar.
 - **Preview** – client‑side HTML preview for Editor.js data.
 - **renderToHtml** – helper for server‑side rendering.
 - **exportDocument** – delegates PDF generation to a backend service.

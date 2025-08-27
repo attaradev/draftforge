@@ -29,5 +29,14 @@ describe('Editor', () => {
     const el = screen.getByText('Locked').closest('[contenteditable]');
     expect(el).toHaveAttribute('contenteditable', 'false');
   });
+
+  it('renders inline-header blocks', () => {
+    render(
+      <Editor initialValue={[{ type: 'inline-header', children: [{ text: 'Title' }] } as any]} />
+    );
+    const el = screen.getByText('Title').closest('h2');
+    expect(el).toBeTruthy();
+    expect(el).toHaveStyle('display: inline');
+  });
 });
 

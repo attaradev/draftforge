@@ -2,7 +2,7 @@
 
 Standalone React helpers for rich-text authoring with delegated PDF export. Includes:
 
-- **Editor** – headless rich-text editor powered by Slate with optional collaborative editing and support for non-editable blocks via an `editable` flag
+- **Editor** – headless rich-text editor powered by Slate with optional collaborative editing, an inline formatting toolbar, and support for non-editable blocks via an `editable` flag
 - **Preview** – client-side HTML preview of Editor.js data
 - **renderToHtml** – helper for server-side rendering
 - **exportDocument** – delegates export to a backend service
