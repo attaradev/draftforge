@@ -2,7 +2,7 @@
 
 Standalone React components for rich-text authoring with delegated PDF export. Includes:
 
-- **Editor** – rich-text editor powered by Slate with optional collaborative editing and configurable header
+- **Editor** – rich-text editor powered by Slate with optional collaborative editing, configurable header, and support for non-editable blocks via an `editable` flag
 - **Preview** – client-side HTML preview of Editor.js data
 - **renderToHtml** – helper for server-side rendering
 - **exportDocument** – delegates export to a backend service
@@ -56,7 +56,7 @@ import 'draftforge/dist/editor.css';
 export default function Composer() {
   const [value, setValue] = useState([
     { type: 'paragraph', children: [{ text: '' }] }
-  ]);
+  ]); // blocks may include `editable: false` to lock sections
 
   const handleExport = async () => {
     const url = await exportDocument({

@@ -25,5 +25,17 @@ describe('Editor', () => {
     render(<Editor header={<h1>Header</h1>} />);
     expect(screen.getByText('Header')).toBeInTheDocument();
   });
+
+  it('respects editable flag on blocks', () => {
+    render(
+      <Editor
+        initialValue={[
+          { type: 'paragraph', editable: false, children: [{ text: 'Locked' }] } as any,
+        ]}
+      />
+    );
+    const el = screen.getByText('Locked').closest('[contenteditable]');
+    expect(el).toHaveAttribute('contenteditable', 'false');
+  });
 });
 
