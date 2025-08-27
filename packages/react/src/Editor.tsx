@@ -48,13 +48,6 @@ export function Editor({
     if ((props.leaf as any).italic) {
       children = <em>{children}</em>;
     }
-    if ((props.leaf as any).header) {
-      children = (
-        <h2 style={{ display: 'inline' }}>
-          {children}
-        </h2>
-      );
-    }
     return <span {...props.attributes}>{children}</span>;
   }, []);
 

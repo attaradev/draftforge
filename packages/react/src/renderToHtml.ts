@@ -22,9 +22,8 @@ export function renderToHtml(
       }
       case 'header': {
         const level = clamp(Number(data?.level) || 2, 1, 6);
-        const style = data?.inline ? ' style="display:inline"' : '';
         parts.push(
-          `<h${level}${style}${ceAttr}>${escapeHtml(data?.text ?? '')}</h${level}>`
+          `<h${level}${ceAttr}>${escapeHtml(data?.text ?? '')}</h${level}>`
         );
         break;
       }

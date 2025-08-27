@@ -65,15 +65,6 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
       >
         <em>I</em>
       </button>
-      <button
-        style={buttonStyle}
-        onMouseDown={e => {
-          e.preventDefault();
-          toggleMark('header');
-        }}
-      >
-        H2
-      </button>
     </div>
   );
 };
