@@ -27,9 +27,12 @@ export function Editor({
   useEffect(() => {
     if (!holderRef.current) return;
 
+    const data =
+      initialData ?? { blocks: [{ type: 'paragraph', data: { text: '' } }] };
+
     const editor = new EditorJS({
       holder: holderRef.current,
-      data: initialData || { blocks: [{ type: 'paragraph', data: { text: '' } }] },
+      data,
       placeholder,
       readOnly,
       logLevel: LogLevels.ERROR,
@@ -69,7 +72,7 @@ export function Editor({
       editor.destroy();
       editorRef.current = null;
     };
-  }, []);
+  }, [initialData, placeholder, readOnly, uploadImage]);
 
   return (
     <div className={className}>

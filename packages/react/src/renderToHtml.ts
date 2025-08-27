@@ -1,10 +1,17 @@
-import type { EditorJsData } from './types';
+import type { EditorJsData, RenderOptions } from './types';
 
 /** Minimal Renderer: Editor.js JSON -> HTML string */
-export function renderToHtml(data: EditorJsData): string {
+export function renderToHtml(
+  data: EditorJsData,
+  opts: RenderOptions = {}
+): string {
   if (!data || !Array.isArray(data.blocks)) return '';
+  const { page = 1, pageSize } = opts;
+  const start = pageSize ? (page - 1) * pageSize : 0;
+  const end = pageSize ? start + pageSize : undefined;
+  const blocks = pageSize ? data.blocks.slice(start, end) : data.blocks;
   const parts: string[] = [];
-  for (const block of data.blocks) {
+  for (const block of blocks) {
     const { type, data, editable } = block || {};
     const ceAttr =
       editable === undefined ? '' : ` contenteditable="${editable ? 'true' : 'false'}"`;

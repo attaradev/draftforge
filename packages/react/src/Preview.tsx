@@ -3,8 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import type { PreviewProps } from './types';
 import { renderToHtml } from './renderToHtml';
 
-export function Preview({ data, className }: PreviewProps) {
-  const rawHtml = useMemo(() => renderToHtml(data), [data]);
+export function Preview({ data, className, page = 1, pageSize }: PreviewProps) {
+  const rawHtml = useMemo(
+    () => renderToHtml(data, { page, pageSize }),
+    [data, page, pageSize]
+  );
   const [html, setHtml] = useState('');
 
   useEffect(() => {
