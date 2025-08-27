@@ -38,6 +38,15 @@ export interface EditorProps {
 export interface PreviewProps {
   data: EditorJsData;
   className?: string;
+  /** Page number to render when working with large datasets */
+  page?: number;
+  /** Maximum blocks per page; omit to render all blocks */
+  pageSize?: number;
+}
+
+export interface RenderOptions {
+  page?: number;
+  pageSize?: number;
 }
 
 export interface ExportOptions {

@@ -98,6 +98,21 @@ await exportDocument({
 
 The backoff reduces network chatter when exporting very large PDFs (100+ pages).
 
+### Pagination
+
+`Preview` and `renderToHtml` accept optional `page` and `pageSize` parameters to
+help work with very large Editor.js datasets. Render only a slice of blocks for
+lightweight previews or server-side rendering:
+
+```tsx
+<Preview data={data} page={currentPage} pageSize={50} />
+
+const html = renderToHtml(data, { page: 2, pageSize: 50 });
+```
+
+The `Editor` always loads the full dataset so you can scroll through pages just
+like Google Docs.
+
 ### Efficient previews
 
 `Preview` sanitizes the generated HTML on an idle callback so rendering huge

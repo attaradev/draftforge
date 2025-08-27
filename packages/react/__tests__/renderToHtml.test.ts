@@ -22,4 +22,16 @@ describe('renderToHtml', () => {
     expect(html).toContain('<p contenteditable="false">Locked</p>');
     expect(html).toContain('<p contenteditable="true">Open</p>');
   });
+
+  it('paginates blocks', () => {
+    const data = {
+      blocks: [
+        { type: 'paragraph', data: { text: 'First' } },
+        { type: 'paragraph', data: { text: 'Second' } }
+      ]
+    };
+    const html = renderToHtml(data, { page: 2, pageSize: 1 });
+    expect(html).toContain('Second');
+    expect(html).not.toContain('First');
+  });
 });
