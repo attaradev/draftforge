@@ -9,7 +9,7 @@ or independently to render trusted HTML and deliver PDF exports.
 This repository hosts two packages:
 
 - `packages/react` – React components built on **Slate** with optional collaborative editing: `Editor`,
-  `Preview`, `renderToHtml`, and `exportDocument` for delegating PDF export.
+  `CompositeEditor`, `Preview`, `renderToHtml`, and `exportDocument` for delegating PDF export.
 - `packages/rails` – Rails engine (`draft_forge`) exposing `/draft_forge` endpoints
   for async HTML → PDF via **Grover** (Puppeteer). Includes
   server‑side HTML sanitization and Active Storage delivery.
