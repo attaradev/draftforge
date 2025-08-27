@@ -30,11 +30,11 @@ describe('Editor', () => {
     expect(el).toHaveAttribute('contenteditable', 'false');
   });
 
-  it('renders inline header marks', () => {
+  it('renders inline headers', () => {
     render(
       <Editor
         initialValue={[
-          { type: 'paragraph', children: [{ text: 'Title', inlineHeader: true }] } as any,
+          { type: 'paragraph', children: [{ text: 'Title', header: true }] } as any,
         ]}
       />
     );

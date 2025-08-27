@@ -69,7 +69,7 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
         style={buttonStyle}
         onMouseDown={e => {
           e.preventDefault();
-          toggleMark('inlineHeader');
+          toggleMark('header');
         }}
       >
         H2
