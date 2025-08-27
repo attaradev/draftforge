@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSlate } from 'slate-react';
 import { Editor as SlateEditor, Transforms, Element as SlateElement } from 'slate';
+import { toggleMark } from './marks';
 
 interface ToolbarProps {
   position: { top: number; left: number } | null;
@@ -9,30 +10,25 @@ interface ToolbarProps {
 
 export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose }) => {
   const editor = useSlate();
-  if (!position) return null;
 
-  const toggleMark = (format: string) => {
-    const marks = SlateEditor.marks(editor);
-    const isActive = marks ? (marks as any)[format] === true : false;
-    if (isActive) {
-      SlateEditor.removeMark(editor, format);
-    } else {
-      SlateEditor.addMark(editor, format, true);
-    }
+  const handleToggleMark = useCallback((format: string) => {
+    toggleMark(editor, format);
     onRequestClose();
-  };
+  }, [editor, onRequestClose]);
 
-  const imageEntry = SlateEditor.above(editor, {
-    match: n => SlateElement.isElement(n) && (n as any).type === 'image',
-  });
-
-  const insertImage = () => {
+  const insertImage = useCallback(() => {
     const url = window.prompt('Enter image URL');
     if (!url) return;
     const image = { type: 'image', url, width: 200, children: [{ text: '' }] } as any;
     Transforms.insertNodes(editor, image);
     onRequestClose();
-  };
+  }, [editor, onRequestClose]);
+
+  if (!position) return null;
+
+  const imageEntry = SlateEditor.above(editor, {
+    match: n => SlateElement.isElement(n) && (n as any).type === 'image',
+  });
 
   const buttonStyle: React.CSSProperties = {
     background: 'transparent',
@@ -77,7 +73,7 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
             style={buttonStyle}
             onMouseDown={e => {
               e.preventDefault();
-              toggleMark('bold');
+              handleToggleMark('bold');
             }}
           >
             <strong>B</strong>
@@ -86,7 +82,7 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
             style={buttonStyle}
             onMouseDown={e => {
               e.preventDefault();
-              toggleMark('italic');
+              handleToggleMark('italic');
             }}
           >
             <em>I</em>

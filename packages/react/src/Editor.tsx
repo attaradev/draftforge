@@ -11,6 +11,7 @@ import { Editor as SlateEditor, Transforms, Text, Range, NodeEntry } from 'slate
 import { useEditor } from './useEditor';
 import type { EditorProps } from './types';
 import { InlineToolbar } from './InlineToolbar';
+import { toggleMark } from './marks';
 
 export function Editor({
   initialValue,
@@ -126,27 +127,17 @@ export function Editor({
     [searchQuery],
   );
 
-  const toggleMark = useCallback((format: string) => {
-    const marks = SlateEditor.marks(editor);
-    const isActive = marks ? (marks as any)[format] === true : false;
-    if (isActive) {
-      SlateEditor.removeMark(editor, format);
-    } else {
-      SlateEditor.addMark(editor, format, true);
-    }
-  }, [editor]);
-
   const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
     if (!event.ctrlKey && !event.metaKey) return;
     if (event.key === 'b') {
       event.preventDefault();
-      toggleMark('bold');
+      toggleMark(editor, 'bold');
     }
     if (event.key === 'i') {
       event.preventDefault();
-      toggleMark('italic');
+      toggleMark(editor, 'italic');
     }
-  }, [toggleMark]);
+  }, [editor]);
 
   const updateToolbar = useCallback(() => {
     const sel = window.getSelection();
