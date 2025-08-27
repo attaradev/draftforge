@@ -1,8 +1,8 @@
-import type { DocumentData, RenderOptions } from './types';
+import type { Document, RenderOptions } from './types';
 
 /** Minimal Renderer: block JSON -> HTML string */
 export function renderToHtml(
-  data: DocumentData,
+  data: Document,
   opts: RenderOptions = {}
 ): string {
   if (!data || !Array.isArray(data.blocks)) return '';
