@@ -3,9 +3,16 @@ import {
   useMemo,
   useState,
   useEffect,
+  useCallback,
 } from 'react';
 import { createEditor, Descendant } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
+import {
+  Slate,
+  Editable,
+  withReact,
+  DefaultElement,
+  type RenderElementProps,
+} from 'slate-react';
 import { withHistory } from 'slate-history';
 import { withYjs, YjsEditor } from '@slate-yjs/core';
 import * as Y from 'yjs';
@@ -47,6 +54,19 @@ export function Editor({
     return e;
   }, [collaborative, sharedType]);
 
+  const renderElement = useCallback((props: RenderElementProps) => {
+    const { element } = props;
+    if ((element as any).editable === false) {
+      const attributes = {
+        ...props.attributes,
+        contentEditable: false,
+        suppressContentEditableWarning: true,
+      } as any;
+      return <DefaultElement {...props} attributes={attributes} />;
+    }
+    return <DefaultElement {...props} />;
+  }, []);
+
   useEffect(() => {
     if (collaborative && editor) {
       YjsEditor.connect(editor as any);
@@ -73,6 +93,7 @@ export function Editor({
           aria-label={ariaLabel}
           placeholder={placeholder}
           readOnly={readOnly}
+          renderElement={renderElement}
         />
       </Slate>
     </div>
