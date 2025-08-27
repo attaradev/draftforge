@@ -22,6 +22,7 @@ export function Editor({
   readOnly,
   collaborative,
   collabUrl,
+  renderElement: customRenderElement,
 }: EditorProps) {
   const { editor, value, onChange } = useEditor({
     initialValue,
@@ -34,7 +35,7 @@ export function Editor({
     null,
   );
 
-  const renderElement = useCallback(
+  const baseRenderElement = useCallback(
     (props: RenderElementProps) => {
       const { element, attributes, children } = props as any;
       if (element.type === 'image') {
@@ -70,6 +71,15 @@ export function Editor({
       return <DefaultElement {...props} />;
     },
     [editor, setToolbarPos],
+  );
+
+  const renderElement = useCallback(
+    (props: RenderElementProps) => {
+      const custom = customRenderElement?.(props);
+      if (custom) return custom;
+      return baseRenderElement(props);
+    },
+    [baseRenderElement, customRenderElement],
   );
 
   const renderLeaf = useCallback((props: RenderLeafProps) => {
