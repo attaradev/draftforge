@@ -5,8 +5,9 @@ import {
   DefaultElement,
   type RenderElementProps,
   type RenderLeafProps,
+  ReactEditor,
 } from 'slate-react';
-import { Editor as SlateEditor } from 'slate';
+import { Editor as SlateEditor, Transforms } from 'slate';
 import { useEditor } from './useEditor';
 import type { EditorProps } from './types';
 import { InlineToolbar } from './InlineToolbar';
@@ -28,17 +29,47 @@ export function Editor({
     collabUrl,
   });
 
-  const renderElement = useCallback((props: RenderElementProps) => {
-    if ((props.element as any).editable === false) {
-      const attributes = {
-        ...props.attributes,
-        contentEditable: false,
-        suppressContentEditableWarning: true,
-      } as any;
-      return <DefaultElement {...props} attributes={attributes} />;
-    }
-    return <DefaultElement {...props} />;
-  }, []);
+  const [toolbarPos, setToolbarPos] = useState<{ top: number; left: number } | null>(
+    null,
+  );
+
+  const renderElement = useCallback(
+    (props: RenderElementProps) => {
+      const { element, attributes, children } = props as any;
+      if (element.type === 'image') {
+        const width = element.width || 200;
+        return (
+          <div {...attributes} contentEditable={false}>
+            <img
+              src={element.url}
+              style={{ width }}
+              data-testid="image"
+              onClick={e => {
+                const path = ReactEditor.findPath(editor, element);
+                Transforms.select(editor, path);
+                const rect = (e.target as HTMLElement).getBoundingClientRect();
+                setToolbarPos({
+                  top: rect.top + window.scrollY,
+                  left: rect.left + rect.width / 2 + window.scrollX,
+                });
+              }}
+            />
+            {children}
+          </div>
+        );
+      }
+      if (element.editable === false) {
+        const attrs = {
+          ...attributes,
+          contentEditable: false,
+          suppressContentEditableWarning: true,
+        } as any;
+        return <DefaultElement {...props} attributes={attrs} />;
+      }
+      return <DefaultElement {...props} />;
+    },
+    [editor, setToolbarPos],
+  );
 
   const renderLeaf = useCallback((props: RenderLeafProps) => {
     let { children } = props;
@@ -72,10 +103,6 @@ export function Editor({
       toggleMark('italic');
     }
   }, [toggleMark]);
-
-  const [toolbarPos, setToolbarPos] = useState<{ top: number; left: number } | null>(
-    null
-  );
 
   const updateToolbar = useCallback(() => {
     const sel = window.getSelection();
