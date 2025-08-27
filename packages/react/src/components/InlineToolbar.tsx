@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSlate } from 'slate-react';
 import { Editor as SlateEditor, Transforms, Element as SlateElement } from 'slate';
+import type { ImageElement } from '../types';
 import { toggleMark } from '../utils/marks';
 
 interface ToolbarProps {
@@ -19,15 +20,20 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
   const insertImage = useCallback(() => {
     const url = window.prompt('Enter image URL');
     if (!url) return;
-    const image = { type: 'image', url, width: 200, children: [{ text: '' }] } as any;
+    const image: ImageElement = {
+      type: 'image',
+      url,
+      width: 200,
+      children: [{ text: '' }],
+    };
     Transforms.insertNodes(editor, image);
     onRequestClose();
   }, [editor, onRequestClose]);
 
   if (!position) return null;
 
-  const imageEntry = SlateEditor.above(editor, {
-    match: n => SlateElement.isElement(n) && (n as any).type === 'image',
+  const imageEntry = SlateEditor.above<ImageElement>(editor, {
+    match: n => SlateElement.isElementType<ImageElement>(n, 'image'),
   });
 
   const buttonStyle: React.CSSProperties = {
@@ -60,10 +66,10 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
           type="range"
           min={50}
           max={800}
-          value={(imageEntry[0] as any).width || 200}
+          value={imageEntry[0].width || 200}
           onChange={e => {
             const w = parseInt(e.target.value, 10);
-            Transforms.setNodes(editor, { width: w } as any, { at: imageEntry[1] });
+            Transforms.setNodes<ImageElement>(editor, { width: w }, { at: imageEntry[1] });
           }}
           data-testid="resize-slider"
         />

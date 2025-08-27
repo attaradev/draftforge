@@ -1,4 +1,4 @@
-import type { Descendant } from 'slate';
+import type { Descendant, Element as SlateElement } from 'slate';
 import type { RenderElementProps } from 'slate-react';
 
 export interface Block {
@@ -15,6 +15,13 @@ export interface Document {
   time?: number;
   blocks: Block[];
   version?: string;
+}
+
+export interface ImageElement extends SlateElement {
+  type: 'image';
+  url: string;
+  width: number;
+  children: { text: string }[];
 }
 
 export interface EditorProps {
