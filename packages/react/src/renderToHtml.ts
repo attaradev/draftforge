@@ -25,6 +25,15 @@ export function renderToHtml(
         parts.push(`<h${level}${ceAttr}>${escapeHtml(data?.text ?? '')}</h${level}>`);
         break;
       }
+      case 'inline-header': {
+        const level = clamp(Number(data?.level) || 2, 1, 6);
+        parts.push(
+          `<h${level} style="display:inline"${ceAttr}>${escapeHtml(
+            data?.text ?? ''
+          )}</h${level}>`
+        );
+        break;
+      }
       case 'list': {
         const style = (data?.style === 'ordered') ? 'ol' : 'ul';
         const items = Array.isArray(data?.items) ? data.items : [];
