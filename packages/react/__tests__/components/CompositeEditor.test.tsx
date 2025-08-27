@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { CompositeEditor } from '../src/CompositeEditor';
+import { CompositeEditor } from '../../src/components/CompositeEditor';
 
 describe('CompositeEditor', () => {
   it('renders sections in order and respects editability', () => {

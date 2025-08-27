@@ -1,4 +1,4 @@
-import type { Document, RenderOptions } from './types';
+import type { Document, RenderOptions } from '../types';
 
 /** Minimal Renderer: block JSON -> HTML string */
 export function renderToHtml(

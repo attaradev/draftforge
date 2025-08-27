@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSlate } from 'slate-react';
 import { Editor as SlateEditor, Transforms, Element as SlateElement } from 'slate';
-import { toggleMark } from './marks';
+import { toggleMark } from '../utils/marks';
 
 interface ToolbarProps {
   position: { top: number; left: number } | null;

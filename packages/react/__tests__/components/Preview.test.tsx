@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Preview } from '../src/Preview';
+import { Preview } from '../../src/components/Preview';
 
 describe('Preview', () => {
   it('renders sanitized HTML', async () => {

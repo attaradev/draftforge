@@ -80,7 +80,69 @@ export default function Composer() {
 Use with any backend capable of accepting block JSON and returning a URL
 to a rendered PDF when ready.
 
-### Long-running exports
+### Editor
+
+```tsx
+import { Editor } from 'draftforge';
+
+<Editor initialValue={[{ type: 'paragraph', children: [{ text: 'Hi' }] }]} />
+```
+
+### CompositeEditor
+
+```tsx
+import { CompositeEditor } from 'draftforge';
+
+<CompositeEditor
+  sections={[
+    { id: '1', value: [{ type: 'paragraph', children: [{ text: 'first' }] }] },
+    { id: '2', value: [{ type: 'paragraph', children: [{ text: 'second' }] }], editable: false }
+  ]}
+/>
+```
+
+### useEditor
+
+```tsx
+import { Editor, useEditor } from 'draftforge';
+
+function Controlled() {
+  const { editor, value, setValue } = useEditor([]);
+  return <Editor editor={editor} value={value} onChangeValue={setValue} />;
+}
+```
+
+### Preview
+
+```tsx
+import { Preview } from 'draftforge';
+
+<Preview data={{ blocks: [{ type: 'paragraph', data: { text: 'Hi' } }] }} />
+```
+
+### renderToHtml
+
+```ts
+import { renderToHtml } from 'draftforge';
+
+const html = renderToHtml({
+  blocks: [{ type: 'paragraph', data: { text: 'Hello' } }]
+});
+```
+
+### exportDocument
+
+```ts
+import { exportDocument } from 'draftforge';
+
+await exportDocument({
+  data: { blocks: [] },
+  exportUrl: '/exports',
+  pollBaseUrl: '/exports'
+});
+```
+
+#### Long-running exports
 
 `exportDocument` polls the backend until a download URL is ready. Large
 documents can take longer to render, so the helper supports tuning the poll

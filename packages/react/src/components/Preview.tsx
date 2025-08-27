@@ -1,7 +1,7 @@
 import DOMPurify from 'dompurify';
 import { useEffect, useMemo, useState } from 'react';
-import type { PreviewProps } from './types';
-import { renderToHtml } from './renderToHtml';
+import type { PreviewProps } from '../types';
+import { renderToHtml } from '../utils/renderToHtml';
 
 export function Preview({ data, className, page = 1, pageSize }: PreviewProps) {
   const rawHtml = useMemo(
