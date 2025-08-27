@@ -29,15 +29,7 @@ export function Editor({
   });
 
   const renderElement = useCallback((props: RenderElementProps) => {
-    const { element } = props;
-    if ((element as any).type === 'inline-header') {
-      return (
-        <h2 style={{ display: 'inline' }} {...props.attributes}>
-          {props.children}
-        </h2>
-      );
-    }
-    if ((element as any).editable === false) {
+    if ((props.element as any).editable === false) {
       const attributes = {
         ...props.attributes,
         contentEditable: false,
@@ -55,6 +47,13 @@ export function Editor({
     }
     if ((props.leaf as any).italic) {
       children = <em>{children}</em>;
+    }
+    if ((props.leaf as any).inlineHeader) {
+      children = (
+        <h2 style={{ display: 'inline' }}>
+          {children}
+        </h2>
+      );
     }
     return <span {...props.attributes}>{children}</span>;
   }, []);

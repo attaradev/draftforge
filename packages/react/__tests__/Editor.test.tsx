@@ -30,9 +30,13 @@ describe('Editor', () => {
     expect(el).toHaveAttribute('contenteditable', 'false');
   });
 
-  it('renders inline-header blocks', () => {
+  it('renders inline header marks', () => {
     render(
-      <Editor initialValue={[{ type: 'inline-header', children: [{ text: 'Title' }] } as any]} />
+      <Editor
+        initialValue={[
+          { type: 'paragraph', children: [{ text: 'Title', inlineHeader: true }] } as any,
+        ]}
+      />
     );
     const el = screen.getByText('Title').closest('h2');
     expect(el).toBeTruthy();

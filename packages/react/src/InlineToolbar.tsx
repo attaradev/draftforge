@@ -1,19 +1,10 @@
 import React from 'react';
 import { useSlate } from 'slate-react';
-import { Editor as SlateEditor, Transforms, Element as SlateElement } from 'slate';
+import { Editor as SlateEditor } from 'slate';
 
 interface ToolbarProps {
   position: { top: number; left: number } | null;
   onRequestClose: () => void;
-}
-
-function isBlockActive(editor: SlateEditor, format: string) {
-  const [match] = Array.from(
-    SlateEditor.nodes(editor, {
-      match: n => SlateElement.isElement(n) && (n as any).type === format,
-    })
-  );
-  return !!match;
 }
 
 export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose }) => {
@@ -28,16 +19,6 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
     } else {
       SlateEditor.addMark(editor, format, true);
     }
-    onRequestClose();
-  };
-
-  const toggleBlock = (format: string) => {
-    const isActive = isBlockActive(editor, format);
-    Transforms.setNodes(
-      editor,
-      { type: isActive ? 'paragraph' : format } as any,
-      { match: n => SlateElement.isElement(n) && SlateEditor.isBlock(editor, n) }
-    );
     onRequestClose();
   };
 
@@ -66,9 +47,33 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
       }}
       data-testid="inline-toolbar"
     >
-      <button style={buttonStyle} onMouseDown={e => { e.preventDefault(); toggleMark('bold'); }}><strong>B</strong></button>
-      <button style={buttonStyle} onMouseDown={e => { e.preventDefault(); toggleMark('italic'); }}><em>I</em></button>
-      <button style={buttonStyle} onMouseDown={e => { e.preventDefault(); toggleBlock('inline-header'); }}>H2</button>
+      <button
+        style={buttonStyle}
+        onMouseDown={e => {
+          e.preventDefault();
+          toggleMark('bold');
+        }}
+      >
+        <strong>B</strong>
+      </button>
+      <button
+        style={buttonStyle}
+        onMouseDown={e => {
+          e.preventDefault();
+          toggleMark('italic');
+        }}
+      >
+        <em>I</em>
+      </button>
+      <button
+        style={buttonStyle}
+        onMouseDown={e => {
+          e.preventDefault();
+          toggleMark('inlineHeader');
+        }}
+      >
+        H2
+      </button>
     </div>
   );
 };

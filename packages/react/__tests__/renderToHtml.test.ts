@@ -15,7 +15,7 @@ describe('renderToHtml', () => {
   it('renders inline headers', () => {
     const html = renderToHtml({
       blocks: [
-        { type: 'inline-header', data: { text: 'Inline', level: 2 } }
+        { type: 'header', data: { text: 'Inline', level: 2, inline: true } }
       ]
     });
     expect(html).toContain('<h2 style="display:inline">Inline</h2>');

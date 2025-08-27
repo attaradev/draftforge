@@ -22,15 +22,9 @@ export function renderToHtml(
       }
       case 'header': {
         const level = clamp(Number(data?.level) || 2, 1, 6);
-        parts.push(`<h${level}${ceAttr}>${escapeHtml(data?.text ?? '')}</h${level}>`);
-        break;
-      }
-      case 'inline-header': {
-        const level = clamp(Number(data?.level) || 2, 1, 6);
+        const style = data?.inline ? ' style="display:inline"' : '';
         parts.push(
-          `<h${level} style="display:inline"${ceAttr}>${escapeHtml(
-            data?.text ?? ''
-          )}</h${level}>`
+          `<h${level}${style}${ceAttr}>${escapeHtml(data?.text ?? '')}</h${level}>`
         );
         break;
       }
