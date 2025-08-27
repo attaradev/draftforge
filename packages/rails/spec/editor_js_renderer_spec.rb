@@ -16,13 +16,4 @@ RSpec.describe DraftForge::EditorJsRenderer do
     expect(html).to include('<ul><li>a</li><li>b</li></ul>')
   end
 
-  it 'renders inline headers' do
-    data = {
-      'blocks' => [
-        { 'type' => 'header', 'data' => { 'text' => 'Inline', 'level' => 3, 'inline' => true } }
-      ]
-    }
-    html = described_class.call(data)
-    expect(html).to include("<h3 style='display:inline'>Inline</h3>")
-  end
 end

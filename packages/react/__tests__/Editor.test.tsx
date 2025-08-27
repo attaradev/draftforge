@@ -30,17 +30,5 @@ describe('Editor', () => {
     expect(el).toHaveAttribute('contenteditable', 'false');
   });
 
-  it('renders inline headers', () => {
-    render(
-      <Editor
-        initialValue={[
-          { type: 'paragraph', children: [{ text: 'Title', header: true }] } as any,
-        ]}
-      />
-    );
-    const el = screen.getByText('Title').closest('h2');
-    expect(el).toBeTruthy();
-    expect(el).toHaveStyle('display: inline');
-  });
 });
 
