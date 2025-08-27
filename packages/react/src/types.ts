@@ -10,7 +10,7 @@ export interface Block {
   [key: string]: any;
 }
 
-export interface DocumentData {
+export interface Document {
   time?: number;
   blocks: Block[];
   version?: string;
@@ -36,7 +36,7 @@ export interface EditorProps {
 export type UseEditorOptions = Pick<EditorProps, 'initialValue' | 'onChangeValue' | 'collaborative' | 'collabUrl'>;
 
 export interface PreviewProps {
-  data: DocumentData;
+  data: Document;
   className?: string;
   /** Page number to render when working with large datasets */
   page?: number;
@@ -50,7 +50,7 @@ export interface RenderOptions {
 }
 
 export interface ExportOptions {
-  data: DocumentData;
+  data: Document;
   filename?: string;
   exportUrl: string;    // POST endpoint
   pollBaseUrl: string;  // GET base, i.e. `${pollBaseUrl}/${id}`
