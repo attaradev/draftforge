@@ -1,4 +1,5 @@
 import type { Descendant } from 'slate';
+import type { RenderElementProps } from 'slate-react';
 
 export interface Block {
   /** Block type identifier, e.g. `paragraph` */
@@ -33,6 +34,8 @@ export interface EditorProps {
   collaborative?: boolean;
   /** Websocket endpoint for collaborative editing */
   collabUrl?: string;
+  /** Custom element renderer */
+  renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
 }
 
 export type UseEditorOptions = Pick<EditorProps, 'initialValue' | 'onChangeValue' | 'collaborative' | 'collabUrl'>;
@@ -62,4 +65,16 @@ export interface ExportOptions {
   /** Multiplier applied to the poll interval after each attempt */
   backoffFactor?: number;
   maxPolls?: number;
+}
+
+export interface Section {
+  id: string;
+  value: Descendant[];
+  editable?: boolean;
+}
+
+export interface CompositeEditorProps {
+  sections: Section[];
+  onChangeSections?: (sections: Section[]) => void;
+  className?: string;
 }
