@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSlate } from 'slate-react';
-import { Editor as SlateEditor } from 'slate';
+import { Editor as SlateEditor, Transforms, Element as SlateElement } from 'slate';
 
 interface ToolbarProps {
   position: { top: number; left: number } | null;
@@ -19,6 +19,18 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
     } else {
       SlateEditor.addMark(editor, format, true);
     }
+    onRequestClose();
+  };
+
+  const imageEntry = SlateEditor.above(editor, {
+    match: n => SlateElement.isElement(n) && (n as any).type === 'image',
+  });
+
+  const insertImage = () => {
+    const url = window.prompt('Enter image URL');
+    if (!url) return;
+    const image = { type: 'image', url, width: 200, children: [{ text: '' }] } as any;
+    Transforms.insertNodes(editor, image);
     onRequestClose();
   };
 
@@ -47,24 +59,50 @@ export const InlineToolbar: React.FC<ToolbarProps> = ({ position, onRequestClose
       }}
       data-testid="inline-toolbar"
     >
-      <button
-        style={buttonStyle}
-        onMouseDown={e => {
-          e.preventDefault();
-          toggleMark('bold');
-        }}
-      >
-        <strong>B</strong>
-      </button>
-      <button
-        style={buttonStyle}
-        onMouseDown={e => {
-          e.preventDefault();
-          toggleMark('italic');
-        }}
-      >
-        <em>I</em>
-      </button>
+      {imageEntry ? (
+        <input
+          type="range"
+          min={50}
+          max={800}
+          value={(imageEntry[0] as any).width || 200}
+          onChange={e => {
+            const w = parseInt(e.target.value, 10);
+            Transforms.setNodes(editor, { width: w } as any, { at: imageEntry[1] });
+          }}
+          data-testid="resize-slider"
+        />
+      ) : (
+        <>
+          <button
+            style={buttonStyle}
+            onMouseDown={e => {
+              e.preventDefault();
+              toggleMark('bold');
+            }}
+          >
+            <strong>B</strong>
+          </button>
+          <button
+            style={buttonStyle}
+            onMouseDown={e => {
+              e.preventDefault();
+              toggleMark('italic');
+            }}
+          >
+            <em>I</em>
+          </button>
+          <button
+            style={buttonStyle}
+            onMouseDown={e => {
+              e.preventDefault();
+              insertImage();
+            }}
+            data-testid="add-image"
+          >
+            Img
+          </button>
+        </>
+      )}
     </div>
   );
 };
