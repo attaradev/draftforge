@@ -1,4 +1,4 @@
-import type { ExportOptions } from './types';
+import type { ExportOptions } from '../types';
 
 /**
  * Delegate export of document data to a backend service.

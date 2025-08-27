@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Editor } from '../src/Editor';
+import { Editor } from '../../src/components/Editor';
 
 describe('Editor', () => {
   it('uses provided aria-label', () => {

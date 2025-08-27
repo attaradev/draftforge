@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import type { CompositeEditorProps, Section } from './types';
+import type { CompositeEditorProps, Section } from '../types';
 import type { Descendant } from 'slate';
 import { Editor } from './Editor';
 

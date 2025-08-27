@@ -8,10 +8,10 @@ import {
   ReactEditor,
 } from 'slate-react';
 import { Editor as SlateEditor, Transforms, Text, Range, NodeEntry } from 'slate';
-import { useEditor } from './useEditor';
-import type { EditorProps } from './types';
+import { useEditor } from '../hooks/useEditor';
+import type { EditorProps } from '../types';
 import { InlineToolbar } from './InlineToolbar';
-import { toggleMark } from './marks';
+import { toggleMark } from '../utils/marks';
 
 export function Editor({
   initialValue,

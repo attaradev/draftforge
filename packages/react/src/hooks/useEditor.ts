@@ -5,7 +5,7 @@ import { withHistory } from 'slate-history';
 import { withYjs, YjsEditor } from '@slate-yjs/core';
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
-import type { UseEditorOptions } from './types';
+import type { UseEditorOptions } from '../types';
 
 const EMPTY_VALUE: Descendant[] = [
   { type: 'paragraph', children: [{ text: '' }] } as any,

@@ -15,6 +15,7 @@ Reusable components and helpers for building authoring interfaces.
 - **Editor** – headless editor powered by Slate with an inline formatting toolbar.
 - **CompositeEditor** – manage multiple sections with independent editability.
 - **Preview** – client‑side HTML preview for block data.
+- **useEditor** – React hook for controlled editor state.
 - **renderToHtml** – helper for server‑side rendering.
 - **exportDocument** – delegates PDF generation to a backend service.
 

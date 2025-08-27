@@ -1,4 +1,4 @@
-import { exportDocument } from '../src/exportDocument';
+import { exportDocument } from '../../src/utils/exportDocument';
 
 describe('exportDocument', () => {
   it('resolves with download url', async () => {

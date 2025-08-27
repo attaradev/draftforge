@@ -1,4 +1,4 @@
-import { renderToHtml } from '../src/renderToHtml';
+import { renderToHtml } from '../../src/utils/renderToHtml';
 
 describe('renderToHtml', () => {
   it('renders basic blocks to HTML', () => {
